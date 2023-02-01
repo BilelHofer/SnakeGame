@@ -5,9 +5,17 @@
         android:layout_height="match_parent"
         tools:context=".ScoreFragment">
 
-    <TextView
+
+    <ListView
+            android:id="@+id/list_scores"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="score frag" />
+            android:layout_height="match_parent" />
+
+    <Button
+            android:id="@+id/btn_add"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:text="+"/>
 
 </FrameLayout>
