@@ -11,14 +11,14 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/btn_score"
             android:layout_centerHorizontal="true"
-            android:text="@string/play"/>
+            android:text="@string/home_btn_play"/>
 
     <Button
             android:id="@+id/btn_score"
             android:layout_width="@dimen/btn_size"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/score"/>
+            android:text="@string/home_btn_score"/>
 
     <Button
             android:id="@+id/btn_exit"
@@ -26,5 +26,5 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_score"
             android:layout_centerHorizontal="true"
-            android:text="@string/exit"/>
+            android:text="@string/home_btn_exit"/>
 </RelativeLayout>

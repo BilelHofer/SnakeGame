@@ -1,25 +1,26 @@
 package com.example.snakegame;
 
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.util.Random;
 
 public class ScoreFragment extends Fragment {
 
-    private ListView mScoresListView;
-    private SimpleCursorAdapter mAdapter;
+    private TableLayout tableScores;
     //TODO button temporaire
     private Button ButtonAdd;
     private DatabaseHelper dbHelper;
@@ -46,47 +47,49 @@ public class ScoreFragment extends Fragment {
                 Random rn = new Random();
                 dbHelper.addScore("TEST", rn.nextInt(10) + 1);
 
-                // Chargez les données depuis la base de données
-                loadScores();
             }
         });
 
-        mScoresListView = view.findViewById(R.id.list_scores);
-
-        // Spécifiez les colonnes à afficher dans la liste
-        String[] columns = { DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_APPLES};
-
-        // Spécifiez les vues dans lesquelles les données doivent être affichées
-        int[] viewIds = { android.R.id.text1, android.R.id.text2 };
-
-        mAdapter = new SimpleCursorAdapter(getContext(), android.R.layout.simple_list_item_2, null, columns, viewIds, 0);
-        mScoresListView.setAdapter(mAdapter);
-
-        // Chargez les données depuis la base de données
+        tableScores = view.findViewById(R.id.table_scores);
         loadScores();
 
         return view;
     }
 
     /**
-     * Charge les scores depuis la base de données
+     * Charge les scores dans la table
      */
     private void loadScores() {
-        new LoadScoresTask().execute();
-    }
+        Cursor cursor = dbHelper.getAllScores();
 
-    /**
-     * Tâche asynchrone pour charger les scores depuis la base de données
-     */
-    private class LoadScoresTask extends AsyncTask<Void, Void, Cursor> {
-        @Override
-        protected Cursor doInBackground(Void... voids) {
-            return dbHelper.getAllScores();
-        }
+        while (cursor.moveToNext()) {
+            TableRow tableRow = new TableRow(getContext());
+            tableRow.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
 
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            mAdapter.swapCursor(cursor);
+            TextView userName = new TextView(getContext());
+            userName.setText(cursor.getString(
+                    cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)));
+            // ajoute le layout_weight pour que les colonnes prennent la même largeur
+            userName.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.5f));
+            userName.setGravity(Gravity.CENTER_HORIZONTAL);
+            userName.setPadding(0, 0, 0, 10);
+
+            tableRow.addView(userName);
+
+            TextView applesEaten = new TextView(getContext());
+            applesEaten.setText(String.valueOf(cursor.getInt(
+                    cursor.getColumnIndex(DatabaseHelper.COLUMN_APPLES))));
+            // ajoute le layout_weight pour que les colonnes prennent la même largeur
+            applesEaten.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.5f));
+            applesEaten.setGravity(Gravity.CENTER_HORIZONTAL);
+            applesEaten.setPadding(0, 0, 0, 10);
+
+            tableRow.addView(applesEaten);
+
+            tableScores.addView(tableRow);
         }
+        cursor.close();
     }
 }

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Snake Game</string>
-    <string name="play">Play</string>
-    <string name="score">Score</string>
-    <string name="exit">Quit</string>
+    <string name="home_btn_play">Play</string>
+    <string name="home_btn_score">Score</string>
+    <string name="home_btn_exit">Quit</string>
+    <string name="table_name">User Name</string>
+    <string name="table_apple">Apples Eaten</string>
 </resources>
