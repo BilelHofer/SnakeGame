@@ -1,6 +1,7 @@
 package com.example.snakegame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,5 +16,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Ajoute le fragment HomeFragment
         getSupportFragmentManager().beginTransaction().add(R.id.container, new HomeFragment()).commit();
+    }
+
+    public void updateFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 }

@@ -39,13 +39,13 @@ public class HomeFragment extends Fragment {
         ButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                ((MainActivity) requireActivity()).updateFragment(new GameFragment());
             }
         });
         ButtonScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                ((MainActivity) requireActivity()).updateFragment(new ScoreFragment());
             }
         });
         ButtonExit.setOnClickListener(new View.OnClickListener() {
