@@ -5,40 +5,49 @@
         android:layout_height="match_parent"
         tools:context=".ScoreFragment">
 
-
-    <TableLayout
-            android:id="@+id/table_scores"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TableRow
-                android:layout_marginTop="8sp"
-                >
+        <TableLayout
+                android:id="@+id/table_scores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:background="@drawable/rounded_black_background">
+
+            <TableRow
+                    android:layout_marginTop="8sp">
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_weight="0.5"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="@string/table_name" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.5"
+                         android:layout_marginBottom="20dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:text="@string/table_name" />
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_weight="0.5"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="@string/table_apple" />
-        </TableRow>
-    </TableLayout>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0.5"
+                        android:layout_marginBottom="20dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:text="@string/table_apple" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 
-    <Button
-            android:id="@+id/btn_add"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:text="+"/>
+        <Button
+                android:id="@+id/btn_add"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:text="+"/>
 
 </FrameLayout>

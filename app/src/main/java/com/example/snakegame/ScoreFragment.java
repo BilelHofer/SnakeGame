@@ -74,7 +74,7 @@ public class ScoreFragment extends Fragment {
             // ajoute le layout_weight pour que les colonnes prennent la même largeur
             userName.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.5f));
             userName.setGravity(Gravity.CENTER_HORIZONTAL);
-            userName.setPadding(0, 0, 0, 10);
+            userName.setPadding(0, 0, 0, 40);
 
             tableRow.addView(userName);
 
@@ -84,7 +84,7 @@ public class ScoreFragment extends Fragment {
             // ajoute le layout_weight pour que les colonnes prennent la même largeur
             applesEaten.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.5f));
             applesEaten.setGravity(Gravity.CENTER_HORIZONTAL);
-            applesEaten.setPadding(0, 0, 0, 10);
+            applesEaten.setPadding(0, 0, 0, 40);
 
             tableRow.addView(applesEaten);
 
