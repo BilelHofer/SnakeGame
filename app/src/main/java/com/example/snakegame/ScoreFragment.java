@@ -21,8 +21,6 @@ import java.util.Random;
 public class ScoreFragment extends Fragment {
 
     private TableLayout tableScores;
-    //TODO button temporaire
-    private Button ButtonAdd;
     private DatabaseHelper dbHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,20 +33,6 @@ public class ScoreFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_score, container, false);
-
-        ButtonAdd = view.findViewById(R.id.btn_add);
-
-        ButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //dbHelper.resetDatabase(); // reset de la db
-
-                // Ajout de données
-                Random rn = new Random();
-                dbHelper.addScore("TEST", rn.nextInt(10) + 1);
-
-            }
-        });
 
         tableScores = view.findViewById(R.id.table_scores);
         loadScores();

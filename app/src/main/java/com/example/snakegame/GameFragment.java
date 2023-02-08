@@ -21,11 +21,16 @@ import java.util.Objects;
 
 public class GameFragment extends Fragment {
 
+    private int score = 0;
+
+    private DatabaseHelper dbHelper;
     public GameFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dbHelper = new DatabaseHelper(getContext());
     }
 
     @Override
@@ -39,40 +44,53 @@ public class GameFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        endGame();
+    }
 
-        // TODO faire que le builder ne se ferme pas si le nom est trop long
+    private void endGame() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         // Set the title for the dialog
-        builder.setTitle("Enter text");
+        builder.setTitle("Sauvegarder votre score");
 
         // Create an EditText widget
         final EditText input = new EditText(requireActivity());
+        input.setHint("Votre nom");
+        input.setPadding(20, 20, 20, 20);
 
-        // Set the EditText as the view for the dialog
         builder.setView(input);
 
-        // Add positive button
         builder.setPositiveButton("Sauvez", new DialogInterface.OnClickListener() {
             @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        builder.setNegativeButton("Anonmye", new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Get the input text
+                dbHelper.addScore("Anonyme", score);
+
+                ((MainActivity) requireActivity()).updateFragment(new EndFragment(0));
+                dialog.dismiss();
+            }
+        });
+        final AlertDialog dialog = builder.create();
+
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
                 String inputText = input.getText().toString();
 
-                if (inputText.length() > 12) {
-                    Toast.makeText(requireActivity(), "Le nom ne doit pas dépasser 12 caractères", Toast.LENGTH_SHORT).show();
+                if (inputText.length() > 12 || inputText.length() == 0) {
+                    Toast.makeText(requireActivity(), "Le nom dois être entre 0 et 12 caractères", Toast.LENGTH_SHORT).show();
                 } else {
-                    // TODO l'ajouter dans la db
+                    dbHelper.addScore(inputText, score);
+
+                    ((MainActivity) requireActivity()).updateFragment(new EndFragment(score));
                     dialog.dismiss();
                 }
             }
         });
-        builder.setNegativeButton("Abandonner", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Close the dialog
-                dialog.dismiss();
-            }
-        });
-        builder.show();
     }
 }

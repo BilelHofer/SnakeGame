@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".EndFragment">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+    <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/x"
+            android:textSize="@dimen/score_text_size"
+            android:layout_marginTop="@dimen/score_margin"/>
+    <TextView
+            android:id="@+id/x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end_x"
+            android:layout_marginTop="@dimen/score_margin"
+            android:textSize="@dimen/score_text_size"
+            android:layout_centerHorizontal="true"/>
+    <ImageView
+            android:layout_width="@dimen/score_apple_size"
+            android:layout_height="@dimen/score_apple_size"
+            android:src="@drawable/apple"
+            android:layout_marginTop="@dimen/score_margin"
+            android:layout_toEndOf="@+id/x"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+    <Button
+            android:id="@+id/btn_restart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/score_btn_margin"
+            android:text="@string/end_btn_play"/>
+
+    <Button
+            android:id="@+id/btn_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/score_btn_margin"
+            android:text="@string/end_btn_score"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

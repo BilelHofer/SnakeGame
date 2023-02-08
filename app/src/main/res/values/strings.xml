@@ -5,4 +5,7 @@
     <string name="home_btn_exit">Quit</string>
     <string name="table_name">User Name</string>
     <string name="table_apple">Apples Eaten</string>
+    <string name="end_x">x</string>
+    <string name="end_btn_play">Play Again</string>
+    <string name="end_btn_score">Score</string>
 </resources>
