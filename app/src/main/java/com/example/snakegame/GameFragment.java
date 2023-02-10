@@ -421,7 +421,7 @@ public class GameFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     dbHelper.addScore("Anonyme", score);
 
-                    ((MainActivity) requireActivity()).updateFragment(new EndFragment(0));
+                    ((MainActivity) requireActivity()).updateFragment(new EndFragment(score));
                     dialog.dismiss();
                 }
             });
