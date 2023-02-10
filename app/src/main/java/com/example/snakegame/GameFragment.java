@@ -115,8 +115,6 @@ public class GameFragment extends Fragment {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         };
 
-        //TODO RECTANGLE DE COLLISION DE LA MAP EST ECLATER
-
         return view;
     }
 
@@ -292,7 +290,7 @@ public class GameFragment extends Fragment {
     private Runnable runnableTestBorder = new Runnable() {
         @Override
         public void run() {
-            if (!gameAreaRect.contains((int) snakeHead.getX() + snakeHead.getWidth() / 2, (int) snakeHead.getY() + snakeHead.getHeight() / 2)) {
+            if (!gameAreaRect.contains((int) snakeHead.getX(), (int) snakeHead.getY()) || !gameAreaRect.contains((int) snakeHead.getX() + snakeHead.getWidth(), (int) snakeHead.getY() + snakeHead.getHeight())) {
                 endGame();
                 handler.removeCallbacks(this);
             }
