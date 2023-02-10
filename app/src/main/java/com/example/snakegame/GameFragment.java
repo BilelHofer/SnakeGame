@@ -86,9 +86,6 @@ public class GameFragment extends Fragment {
         scoreText = view.findViewById(R.id.score);
         scoreText.setText(String.valueOf(score));
 
-        food = view.findViewById(R.id.food);
-        removeFood();
-
         // Détect la directetion à prendre en fonction du capteur GRAVTITY du téléphone
         sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
@@ -141,14 +138,17 @@ public class GameFragment extends Fragment {
                 snakeParts.add(new SnakePart(snakeBody.getX() + snakeBody.getWidth()/2, snakeBody.getY() + snakeBody.getHeight()/2));
                 snakePartsView.add(snakeBody);
 
-                gameAreaRect.set((int) gameArea.getX(), (int) gameArea.getY(), (int) gameArea.getX() + gameArea.getWidth(), (int) gameArea.getY() + gameArea.getHeight());
+                food = view.findViewById(R.id.food);
+                removeFood();
 
-                maxRangeX = (int) gameArea.getX() + gameArea.getWidth() - food.getWidth();
-                minRangeX = (int) gameArea.getX();
+                gameAreaRect.set((int) 0, (int) 0, (int) gameArea.getWidth(), (int) gameArea.getHeight());
+
+                maxRangeX = (int) gameArea.getWidth() - food.getWidth();
+                minRangeX = (int) 0;
                 rangeX = maxRangeX - minRangeX;
 
-                maxRangeY = (int) gameArea.getY() + gameArea.getHeight() - food.getHeight();
-                minRangeY = (int) gameArea.getY();
+                maxRangeY = (int) gameArea.getHeight() - food.getHeight();
+                minRangeY = (int) 0;
                 rangeY = maxRangeY - minRangeY;
 
                 gameArea.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -292,7 +292,7 @@ public class GameFragment extends Fragment {
     private Runnable runnableTestBorder = new Runnable() {
         @Override
         public void run() {
-            if (gameAreaRect.contains((int) snakeHead.getX() + snakeHead.getWidth()/2, (int) snakeHead.getY() + snakeHead.getHeight()/2) == false) {
+            if (!gameAreaRect.contains((int) snakeHead.getX() + snakeHead.getWidth() / 2, (int) snakeHead.getY() + snakeHead.getHeight() / 2)) {
                 endGame();
                 handler.removeCallbacks(this);
             }
@@ -368,6 +368,8 @@ public class GameFragment extends Fragment {
             handler.removeCallbacks(runnableTestPart);
             sensorManager.unregisterListener(EventListener);
 
+            Log.d("gamearea", "endGame: " + gameAreaRect.toString());
+            Log.d("gamearea", snakeHead.getX() + snakeHead.getWidth()/2 + " " + snakeHead.getY() + snakeHead.getHeight()/2);
 
             // Affiche le dialog de fin de partie
             handler.postDelayed(runnableEndDialog, 1000);

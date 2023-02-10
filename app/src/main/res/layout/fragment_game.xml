@@ -40,7 +40,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.9"
             android:layout_margin="20dp"
-            android:background="#00A400">
+            android:background="@drawable/gradient_background">
 
         <GridLayout
                 android:layout_width="match_parent"
@@ -53,20 +53,19 @@
                 android:background="@drawable/apple"/>
 
         <ImageView
+                android:id="@+id/snake_body"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/snake_body" />
+
+        <ImageView
                 android:id="@+id/snake_head"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/snake_head"
                 android:rotation="270"/>
-
-        <ImageView
-                android:id="@+id/snake_body"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_below="@+id/snake_head"
-                android:background="@drawable/snake_body"
-                android:layout_centerInParent="true" />
 
     </RelativeLayout>
 
