@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:screenOrientation="landscape"
+        android:orientation="vertical"
         tools:context=".GameFragment">
 
-    <TextView
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="game frag" />
+            android:layout_marginTop="5sp"
+            android:layout_height="0dp"
+            android:layout_weight="0.05">
 
-</FrameLayout>
+        <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/x"
+                android:text="9"
+                android:textSize="30sp"/>
+        <TextView
+                android:id="@+id/x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/end_x"
+                android:textSize="30sp"
+                android:layout_centerHorizontal="true"/>
+        <ImageView
+                android:layout_width="40sp"
+                android:layout_height="@dimen/score_apple_size"
+                android:src="@drawable/apple"
+                android:layout_marginTop="5sp"
+                android:layout_toEndOf="@+id/x"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/game_area"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
+            android:layout_margin="20dp"
+            android:background="#00A400">
+
+        <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <ImageView
+                android:id="@+id/food"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/apple"/>
+
+        <ImageView
+                android:id="@+id/snake_head"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/snake_head"
+                android:rotation="270"/>
+
+        <ImageView
+                android:id="@+id/snake_body"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_below="@+id/snake_head"
+                android:background="@drawable/snake_body"
+                android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>
