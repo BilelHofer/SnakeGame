@@ -86,7 +86,7 @@ public class GameFragment extends Fragment {
         scoreText = view.findViewById(R.id.score);
         scoreText.setText(String.valueOf(score));
 
-        // Détect la directetion à prendre en fonction du capteur GRAVTITY du téléphone
+        // Détect la direction à prendre en fonction du capteur GRAVTITY du téléphone
         sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
@@ -95,6 +95,7 @@ public class GameFragment extends Fragment {
             @Override
             public void onSensorChanged(SensorEvent event) {
 
+                // Limite le changement de direction toutes les 200 milliseconds
                 if (snakeCanChangeDirection) {
                     handler.postDelayed(runnableChangeDirection, 200);
 
@@ -123,6 +124,8 @@ public class GameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         gameArea = view.findViewById(R.id.game_area);
+
+        // Utilisation d'un treeObserver pour récupérer les dimensions du jeu une fois charger
         gameArea.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -182,13 +185,14 @@ public class GameFragment extends Fragment {
         getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
+    /**
+     * Déplace la tête du serpent
+     */
     private void move() {
         snakeParts.get(0).addPosition(snakeHead.getX() + snakeHead.getWidth()/2, snakeHead.getY() + snakeHead.getHeight()/2);
 
         switch (direction) {
             case UP:
-
-                // rotation de la tête du serpent
                 snakeHead.setRotation(270);
                 snakeHead.setY(snakeHead.getY() - deplace);
                 break;
@@ -209,6 +213,9 @@ public class GameFragment extends Fragment {
         }
     }
 
+    /**
+     * Déplace les parties du serpent
+     */
     private Runnable runnableMove = new Runnable() {
         @Override
         public void run() {
@@ -218,6 +225,9 @@ public class GameFragment extends Fragment {
         }
     };
 
+    /**
+     * Reset la valeur de snakeCanChangeDirection
+     */
     private Runnable runnableChangeDirection = new Runnable() {
         @Override
         public void run() {
@@ -225,6 +235,9 @@ public class GameFragment extends Fragment {
         }
     };
 
+    /**
+     * Fait apparaitre la nourriture
+     */
     private Runnable runnableSpawnFood = new Runnable() {
         @Override
         public void run() {
@@ -232,6 +245,9 @@ public class GameFragment extends Fragment {
         }
     };
 
+    /**
+     *  Set la position de la nourriture et l'affiche a l'écran
+     */
     private void spawnFood() {
         int x = (int) ((Math.random() * rangeX) + minRangeX);
         int y = (int) ((Math.random() * rangeY) + minRangeY);
@@ -244,7 +260,9 @@ public class GameFragment extends Fragment {
         handler.postDelayed(runnableTestFood, 100);
     }
 
-    // runnable qui test si la tête du serpent touche la nourriture
+    /**
+     * Test si la tête du serpent touche la nourriture
+     */
     private Runnable runnableTestFood = new Runnable() {
         @Override
         public void run() {
@@ -354,6 +372,9 @@ public class GameFragment extends Fragment {
         snakeHead.bringToFront();
     }
 
+    /**
+     * Termine la partie
+     */
     private void endGame() {
         if (!gameOver) {
             gameOver = true;
