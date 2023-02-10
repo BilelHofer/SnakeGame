@@ -74,6 +74,9 @@ public class GameFragment extends Fragment {
         });
         final AlertDialog dialog = builder.create();
 
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
         {
