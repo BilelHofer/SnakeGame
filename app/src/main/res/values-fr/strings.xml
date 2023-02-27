@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jeu du serpent</string>
+    <string name="home_btn_play">Jouer</string>
+    <string name="home_btn_score">Classement</string>
+    <string name="home_btn_exit">Quitter</string>
+    <string name="table_name">Nom d\'utilisateur</string>
+    <string name="table_apple">Pomme mangé</string>
+    <string name="end_x">x</string>
+    <string name="end_btn_play">Rejouer</string>
+    <string name="end_btn_score">Score</string>
+</resources>

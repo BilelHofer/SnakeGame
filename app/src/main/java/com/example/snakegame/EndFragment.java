@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class EndFragment extends Fragment {
 
-    private int score = 3;
+    private int score = 0;
 
     public EndFragment(int score) {
         this.score = score;
@@ -27,7 +27,6 @@ public class EndFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_end, container, false);
 
         TextView scoreText = view.findViewById(R.id.score);

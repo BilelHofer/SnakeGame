@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Ajoute une score dans la base de données
+     * Ajoute un score dans la base de données
      * @param name Nom du joueur
      * @param apples Nombre de pomme mangées
      */
@@ -67,5 +67,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-
 }
