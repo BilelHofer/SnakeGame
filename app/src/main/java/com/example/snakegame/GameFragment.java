@@ -465,20 +465,20 @@ public class GameFragment extends Fragment {
         public void run() {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             // Set the title for the dialog
-            builder.setTitle("Perdu !");
+            builder.setTitle(getString(R.string.end_game_title));
 
             // Create an EditText widget
             final EditText input = new EditText(requireActivity());
-            input.setHint("Votre nom");
+            input.setHint(getString(R.string.end_game_hint));
             input.setPadding(20, 20, 20, 20);
 
             builder.setView(input);
 
-            builder.setPositiveButton("Sauvez", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.parameter_btn_save), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {}
             });
-            builder.setNegativeButton("Anonmye", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.end_game_guest), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dbHelper.addScore("Anonyme", score);

@@ -13,4 +13,7 @@
     <string name="parameter_speed_up">Accélération</string>
     <string name="parameter_num_apple">Pomme sumiltané</string>
     <string name="parameter_btn_save">Sauvegarder</string>
+    <string name="end_game_title">Perdu ! </string>
+    <string name="end_game_hint">Votre nom</string>
+    <string name="end_game_guest">Anonyme</string>
 </resources>

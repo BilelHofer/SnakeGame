@@ -12,4 +12,7 @@
     <string name="parameter_speed_up">Speeding</string>
     <string name="parameter_num_apple">Apple at once</string>
     <string name="parameter_btn_save">Save</string>
+    <string name="end_game_title">Lost !</string>
+    <string name="end_game_hint">Your name</string>
+    <string name="end_game_guest">Guest</string>
 </resources>
