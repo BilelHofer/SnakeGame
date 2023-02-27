@@ -47,12 +47,6 @@
                 android:layout_height="match_parent"/>
 
         <ImageView
-                android:id="@+id/food"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/apple"/>
-
-        <ImageView
                 android:id="@+id/snake_body"
                 android:layout_width="14dp"
                 android:layout_height="14dp"

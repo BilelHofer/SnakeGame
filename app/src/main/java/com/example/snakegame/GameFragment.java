@@ -2,37 +2,38 @@ package com.example.snakegame;
 
 import static android.content.Context.SENSOR_SERVICE;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.content.pm.ActivityInfo;
+import android.graphics.PointF;
 import android.graphics.Rect;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.net.Uri;
-import android.os.Bundle;
+        import android.hardware.Sensor;
+        import android.hardware.SensorEvent;
+        import android.hardware.SensorEventListener;
+        import android.hardware.SensorManager;
+        import android.net.Uri;
+        import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
+        import androidx.annotation.NonNull;
+        import androidx.annotation.Nullable;
+        import androidx.appcompat.app.AlertDialog;
+        import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.os.Handler;
+        import android.util.Log;
+        import android.util.TypedValue;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.view.ViewTreeObserver;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.RelativeLayout;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Objects;
+        import java.util.ArrayList;
+        import java.util.Objects;
 
 public class GameFragment extends Fragment {
     private int score = 0;
@@ -46,7 +47,6 @@ public class GameFragment extends Fragment {
     private Direction direction = Direction.RIGHT;
     private TextView scoreText;
     private View snakeHead;
-    private ImageView food;
     private Handler handler = new Handler();
     private boolean snakeCanChangeDirection = true;
     private RelativeLayout gameArea;
@@ -59,7 +59,6 @@ public class GameFragment extends Fragment {
     private int rangeY;
     private int maxRangeY;
     private int minRangeY;
-    private Rect foodRect = new Rect();
     private float deplace = 2f;
     private float speedUp = 0.5f;
     private float sensibility = 1.5f;
@@ -67,6 +66,11 @@ public class GameFragment extends Fragment {
 
     private ArrayList<SnakePart> snakeParts = new ArrayList<>();
     private ArrayList<ImageView> snakePartsView = new ArrayList<>();
+    private int foodNumber = 1;
+    private int foodLeft = 1;
+    private PointF snakeHeadPoint = new PointF();
+    private ArrayList<Food> foodPart = new ArrayList<>();
+    private ArrayList<ImageView> foodPartView = new ArrayList<>();
 
     private DatabaseHelper dbHelper;
     private DatabaseHelperParameters dbHelperParameters;
@@ -78,6 +82,9 @@ public class GameFragment extends Fragment {
 
         dbHelperParameters = new DatabaseHelperParameters(getContext());
         speedUp = dbHelperParameters.getParameter().first;
+        foodNumber = dbHelperParameters.getParameter().second;
+        foodLeft = foodNumber;
+
         dbHelper = new DatabaseHelper(getContext());
     }
 
@@ -137,22 +144,22 @@ public class GameFragment extends Fragment {
                 snakeParts.add(new SnakePart(snakeHead.getX() + snakeHead.getWidth()/2, snakeHead.getY() + snakeHead.getHeight()/2));
                 snakePartsView.add((ImageView) snakeHead);
 
+                snakeHeadPoint.set((int) snakeHead.getX() + snakeHead.getWidth()/2, (int) snakeHead.getY() + snakeHead.getHeight()/2);
+
+                addFood();
                 snakeHead.bringToFront();
 
                 ImageView snakeBody = view.findViewById(R.id.snake_body);
                 snakeParts.add(new SnakePart(snakeBody.getX() + snakeBody.getWidth()/2, snakeBody.getY() + snakeBody.getHeight()/2));
                 snakePartsView.add(snakeBody);
 
-                food = view.findViewById(R.id.food);
-                removeFood();
-
                 gameAreaRect.set((int) 0, (int) 0, (int) gameArea.getWidth(), (int) gameArea.getHeight());
 
-                maxRangeX = (int) gameArea.getWidth() - food.getWidth();
+                maxRangeX = (int) gameArea.getWidth() - 100;
                 minRangeX = (int) 0;
                 rangeX = maxRangeX - minRangeX;
 
-                maxRangeY = (int) gameArea.getHeight() - food.getHeight();
+                maxRangeY = (int) gameArea.getHeight() - 100;
                 minRangeY = (int) 0;
                 rangeY = maxRangeY - minRangeY;
 
@@ -194,6 +201,7 @@ public class GameFragment extends Fragment {
      */
     private void move() {
         snakeParts.get(0).addPosition(snakeHead.getX() + snakeHead.getWidth()/2, snakeHead.getY() + snakeHead.getHeight()/2);
+        snakeHeadPoint.set((int) snakeHead.getX() + snakeHead.getWidth()/2, (int) snakeHead.getY() + snakeHead.getHeight()/2);
 
         switch (direction) {
             case UP:
@@ -253,15 +261,28 @@ public class GameFragment extends Fragment {
      *  Set la position de la nourriture et l'affiche a l'écran
      */
     private void spawnFood() {
-        int x = (int) ((Math.random() * rangeX) + minRangeX);
-        int y = (int) ((Math.random() * rangeY) + minRangeY);
+        int oldx = 0;
+        int oldy = 0;
+        int oldx2 = 0;
+        int oldy2 = 0;
+        for (int i = 0; i < foodNumber; i++) {
+            int x = 0;
+            int y = 0;
 
-        food.setX(x);
-        food.setY(y);
+            // test pour pas que les pommes se superposent
+            do {
+                x = (int) ((Math.random() * rangeX) + minRangeX);
+                y = (int) ((Math.random() * rangeY) + minRangeY);
+            }while (foodPart.get(i).getRect().contains(oldx, oldy) || foodPart.get(i).getRect().contains(oldx2, oldy2));
 
-        foodRect.set((int) food.getX(), (int) food.getY(), (int) food.getX() + food.getWidth(), (int) food.getY() + food.getHeight());
+            foodPart.get(i).setPos(x, y);
+            foodPartView.get(i).setX(x);
+            foodPartView.get(i).setY(y);
 
-        handler.postDelayed(runnableTestFood, 100);
+            handler.postDelayed(runnableTestFood, 10);
+        }
+
+        foodLeft = foodNumber;
     }
 
     /**
@@ -270,17 +291,28 @@ public class GameFragment extends Fragment {
     private Runnable runnableTestFood = new Runnable() {
         @Override
         public void run() {
-            if (foodRect.contains((int) snakeHead.getX() + snakeHead.getWidth()/2, (int) snakeHead.getY() + snakeHead.getHeight()/2)) {
-                removeFood();
-                score++;
-                scoreText.setText(String.valueOf(score));
-                addPart();
-                updatePart();
-                deplace +=  speedUp;
-                handler.postDelayed(runnableSpawnFood, 500);
-            } else {
-                handler.postDelayed(this, 50);
+            boolean noFood = false;
+            for (int i = 0; i < foodNumber; i++) {
+
+                Log.d("testcollison", "food: " + foodPart.get(i).getRect());
+                Log.d("testcollison", "head: " + snakeHeadPoint);
+                if (foodPart.get(i).getRect().contains((int) snakeHeadPoint.x, (int) snakeHeadPoint.y)) {
+                    Log.d("testcollison", "eaten");
+                    removeFood(i);
+                    score++;
+                    scoreText.setText(String.valueOf(score));
+                    addPart();
+                    updatePart();
+                    deplace += speedUp;
+                    foodLeft--;
+                    if (foodLeft == 0) {
+                        noFood = true;
+                        handler.postDelayed(runnableSpawnFood, 500);
+                    }
+                }
             }
+            if (!noFood)
+                handler.postDelayed(this, 50);
         }
     };
 
@@ -322,10 +354,32 @@ public class GameFragment extends Fragment {
     /**
      * Enleve la nourriture de l'écran
      */
-    private void removeFood() {
-        food.setX(-100);
-        food.setY(-100);
-        foodRect.set(-100, -100, -100, -100);
+    private void removeFood(int i) {
+        foodPart.get(i).setPos(-100, -100);
+        foodPartView.get(i).setX(-100);
+        foodPartView.get(i).setY(-100);
+    }
+
+    /**
+     *  Crée toutes les nourritures
+     */
+    private void addFood(){
+        for (int i = 0; i < foodNumber; i++) {
+
+            ImageView part = new ImageView(getContext());
+            part.setImageResource(R.drawable.apple);
+            part.setLayoutParams(new ViewGroup.LayoutParams(
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics()),
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics())
+            ));
+
+
+            foodPart.add(new Food(-100, -100));
+            part.setX(-100);
+            part.setY(-100);
+            gameArea.addView(part);
+            foodPartView.add(part);
+        }
     }
 
     /**

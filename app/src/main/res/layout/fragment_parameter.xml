@@ -33,8 +33,8 @@
             android:layout_marginRight="@dimen/parameter_text_margin"
             android:layout_marginTop="-10dp"
             android:value="0.5"
-            android:valueFrom="0.2"
-            android:valueTo="1.0"/>
+            android:valueFrom="0.4"
+            android:valueTo="1.2"/>
 
     <TextView
             android:id="@+id/parameter_num_apple"
@@ -67,7 +67,7 @@
             android:layout_marginTop="-10dp"
             android:value="1"
             android:valueFrom="1"
-            android:valueTo="3"
+            android:valueTo="4"
             android:stepSize="1"/>
 
     <Button
