@@ -108,8 +108,8 @@ public class GameFragment extends Fragment {
                     } else if (event.values[1]*-1 < -sensibility && direction != Direction.UP) {
                         direction = Direction.DOWN;
                     }
+                    snakeCanChangeDirection = false;
                 }
-                snakeCanChangeDirection = false;
             }
 
             @Override
@@ -359,8 +359,8 @@ public class GameFragment extends Fragment {
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics()),
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())
         ));
-        part.setX(snakeParts.get(snakeParts.size() - 1).getPosition().x - part.getWidth()/2);
-        part.setY(snakeParts.get(snakeParts.size() - 1).getPosition().y - part.getHeight()/2);
+        part.setX(snakePartsView.get(snakePartsView.size() - 1).getX());
+        part.setY(snakePartsView.get(snakePartsView.size() - 1).getY());
         gameArea.addView(part);
         snakePartsView.add(part);
         snakeParts.add(new SnakePart(part.getX(), part.getY()));
@@ -368,8 +368,16 @@ public class GameFragment extends Fragment {
             snakeParts.get(snakeParts.size() - 1).addPosition(part.getX() + part.getWidth()/2, part.getY() + part.getHeight()/2);
         }
         snakeParts.get(snakeParts.size() - 1).setSize(score);
+        bringToFrontParts();
+    }
 
-        snakeHead.bringToFront();
+    /**
+     * Remet l'index z des parties du serpent
+     */
+    private void bringToFrontParts() {
+        for (int i = snakePartsView.size() - 1; i >= 0; i--) {
+            snakePartsView.get(i).bringToFront();
+        }
     }
 
     /**
