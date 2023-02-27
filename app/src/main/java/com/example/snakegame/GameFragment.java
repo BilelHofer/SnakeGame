@@ -60,8 +60,9 @@ public class GameFragment extends Fragment {
     private int maxRangeY;
     private int minRangeY;
     private Rect foodRect = new Rect();
-    private float deplace = 2;
-    private float sensibility = 0.8f;
+    private float deplace = 2f;
+    private float speedUp = 0.5f;
+    private float sensibility = 1.5f;
     private Rect gameAreaRect = new Rect();
 
     private ArrayList<SnakePart> snakeParts = new ArrayList<>();
@@ -272,7 +273,7 @@ public class GameFragment extends Fragment {
                 scoreText.setText(String.valueOf(score));
                 addPart();
                 updatePart();
-                deplace = 2 +  (score/2);
+                deplace +=  speedUp;
                 handler.postDelayed(runnableSpawnFood, 500);
             } else {
                 handler.postDelayed(this, 50);
@@ -286,7 +287,6 @@ public class GameFragment extends Fragment {
     private Runnable runnableTestPart = new Runnable() {
         @Override
         public void run() {
-            int index = 0;
             for (ImageView part : snakePartsView) {
                 if (part != snakeHead && score > 1) {
                     // met un rectangle autour de la part
@@ -394,9 +394,6 @@ public class GameFragment extends Fragment {
             handler.removeCallbacks(runnableTestBorder);
             handler.removeCallbacks(runnableTestPart);
             sensorManager.unregisterListener(EventListener);
-
-            Log.d("gamearea", "endGame: " + gameAreaRect.toString());
-            Log.d("gamearea", snakeHead.getX() + snakeHead.getWidth()/2 + " " + snakeHead.getY() + snakeHead.getHeight()/2);
 
             // Affiche le dialog de fin de partie
             handler.postDelayed(runnableEndDialog, 1000);

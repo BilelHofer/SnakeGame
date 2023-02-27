@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Gère le bouton retour
      * Ferme l'application si le fragment actuel est HomeFragment, sinon affiche le fragment HomeFragment
      */
     @Override
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
             if((uiOptions & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0) {
                 if (mIsBarVisible) {
-                    // Cache la barre de navigation dans 5 secondes
+                    // Si elle est visible, Cache la barre de navigation dans 3 secondes
                     mHandler.postDelayed(mRunnableHideBar, 3000);
                     mIsBarVisible = false;
                 }
