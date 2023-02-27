@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ParameterFragment">
+
+    <TextView
+            android:id="@+id/parameter_speed_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/parameter_text_margin"
+            android:layout_marginLeft="@dimen/parameter_text_margin"
+            android:text="@string/parameter_speed_up"
+            android:textSize="@dimen/parameter_text_size" />
+
+    <TextView
+            android:id="@+id/parameter_speed_up_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/parameter_text_margin"
+            android:layout_marginRight="@dimen/parameter_text_margin"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/parameter_text_size" />
+
+    <com.google.android.material.slider.Slider
+            android:id="@+id/slider_speed_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/parameter_speed_up"
+            android:layout_below="@+id/parameter_speed_up"
+            android:layout_marginLeft="@dimen/parameter_text_margin"
+            android:layout_marginRight="@dimen/parameter_text_margin"
+            android:layout_marginTop="-10dp"
+            android:value="0.5"
+            android:valueFrom="0.2"
+            android:valueTo="1.0"/>
+
+    <TextView
+            android:id="@+id/parameter_num_apple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/parameter_text_margin"
+            android:layout_marginLeft="@dimen/parameter_text_margin"
+            android:layout_below="@+id/slider_speed_up"
+            android:text="@string/parameter_num_apple"
+            android:textSize="@dimen/parameter_text_size" />
+
+    <TextView
+            android:id="@+id/parameter_num_apple_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/parameter_text_margin"
+            android:layout_marginRight="@dimen/parameter_text_margin"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/slider_speed_up"
+            android:textSize="@dimen/parameter_text_size" />
+
+    <com.google.android.material.slider.Slider
+            android:id="@+id/slider_num_apple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/parameter_num_apple"
+            android:layout_below="@+id/parameter_num_apple"
+            android:layout_marginLeft="@dimen/parameter_text_margin"
+            android:layout_marginRight="@dimen/parameter_text_margin"
+            android:layout_marginTop="-10dp"
+            android:value="1"
+            android:valueFrom="1"
+            android:valueTo="3"
+            android:stepSize="1"/>
+
+    <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/parameter_btn_save"
+            android:layout_below="@+id/slider_num_apple"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/parameter_text_margin"
+            android:layout_marginRight="@dimen/parameter_text_margin"/>
+
+</RelativeLayout>

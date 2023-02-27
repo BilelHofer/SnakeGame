@@ -8,4 +8,8 @@
     <string name="end_x">x</string>
     <string name="end_btn_play">Play Again</string>
     <string name="end_btn_score">Ranking</string>
+    <string name="home_btn_parameter">Parameters</string>
+    <string name="parameter_speed_up">Speeding</string>
+    <string name="parameter_num_apple">Apple at once</string>
+    <string name="parameter_btn_save">Save</string>
 </resources>

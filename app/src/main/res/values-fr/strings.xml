@@ -9,4 +9,8 @@
     <string name="end_x">x</string>
     <string name="end_btn_play">Rejouer</string>
     <string name="end_btn_score">Score</string>
+    <string name="home_btn_parameter">Paramètres</string>
+    <string name="parameter_speed_up">Accélération</string>
+    <string name="parameter_num_apple">Pomme sumiltané</string>
+    <string name="parameter_btn_save">Sauvegarder</string>
 </resources>

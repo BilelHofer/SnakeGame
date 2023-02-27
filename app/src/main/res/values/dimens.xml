@@ -6,4 +6,6 @@
     <dimen name="score_text_size">50sp</dimen>
     <dimen name="score_apple_size">65dp</dimen>
     <dimen name="score_btn_margin">45dp</dimen>
+    <dimen name="parameter_text_size">20sp</dimen>
+    <dimen name="parameter_text_margin">20dp</dimen>
 </resources>

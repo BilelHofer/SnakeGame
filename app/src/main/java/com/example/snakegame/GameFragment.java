@@ -69,12 +69,15 @@ public class GameFragment extends Fragment {
     private ArrayList<ImageView> snakePartsView = new ArrayList<>();
 
     private DatabaseHelper dbHelper;
+    private DatabaseHelperParameters dbHelperParameters;
     public GameFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        dbHelperParameters = new DatabaseHelperParameters(getContext());
+        speedUp = dbHelperParameters.getParameter().first;
         dbHelper = new DatabaseHelper(getContext());
     }
 

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_black_background"
         tools:context=".ScoreFragment">
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@drawable/rounded_black_background">
 
     <ScrollView
             android:layout_width="match_parent"
@@ -45,5 +41,4 @@
                 </TableRow>
             </TableLayout>
     </ScrollView>
-    </LinearLayout>
-</FrameLayout>
+</LinearLayout>
