@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ParameterFragment extends Fragment {
     private TextView speedUpValue;
@@ -76,17 +77,24 @@ public class ParameterFragment extends Fragment {
         });
 
         // Sauvegarde les paramètres dans la base de données
+        //TODO informer
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // pour le speedUp limite le nombre de chiffre après la virgule à 2
-                Log.d("dbTest", "speedUp: " + Float.parseFloat((String) speedUpValue.getText()));
-                Log.d("dbTest", "numApple: " + numAppleSlider.getValue());
-                dbParameters.updateParameter(Float.parseFloat((String) speedUpValue.getText()), (int) numAppleSlider.getValue());
+                boolean sucess = dbParameters.updateParameter(Float.parseFloat((String) speedUpValue.getText()), (int) numAppleSlider.getValue());
 
                 Pair<Float, Integer> parameter = dbParameters.getParameter();
-                Log.d("dbTest", "speedUp: " + parameter.first);
-                Log.d("dbTest", "numApple: " + parameter.second);
+
+                View contextView = view.findViewById(R.id.parameter_view);
+
+                if (sucess) {
+                    Snackbar.make(contextView, getString(R.string.parameter_save_message), Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(getResources().getColor(R.color.teal_700))
+                            .show();
+                } else {
+                    Snackbar.make(contextView, getString(R.string.parameter_save_error), Snackbar.LENGTH_LONG).show();
+                }
             }
         });
 

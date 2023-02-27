@@ -16,4 +16,6 @@
     <string name="end_game_title">Perdu ! </string>
     <string name="end_game_hint">Votre nom</string>
     <string name="end_game_guest">Anonyme</string>
+    <string name="parameter_save_message">Vos paramètres ont été sauvegardés avec succès </string>
+    <string name="parameter_save_error">Erreur</string>
 </resources>
