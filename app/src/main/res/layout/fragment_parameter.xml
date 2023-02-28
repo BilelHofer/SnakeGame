@@ -3,8 +3,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/parameter_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ParameterFragment">
+        android:layout_height="wrap_content"
+        tools:context=".ParameterFragment"
+        android:background="@drawable/rounded_black_margin_background">
 
     <TextView
             android:id="@+id/parameter_speed_up"
