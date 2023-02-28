@@ -5,6 +5,7 @@ import static android.content.Context.SENSOR_SERVICE;
         import android.content.DialogInterface;
         import android.content.Intent;
         import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.PointF;
 import android.graphics.Rect;
         import android.hardware.Sensor;
@@ -28,11 +29,15 @@ import android.graphics.Rect;
         import android.view.ViewTreeObserver;
         import android.widget.EditText;
         import android.widget.ImageView;
-        import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import java.util.ArrayList;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
         import java.util.Objects;
 
 public class GameFragment extends Fragment {
@@ -293,11 +298,7 @@ public class GameFragment extends Fragment {
         public void run() {
             boolean noFood = false;
             for (int i = 0; i < foodNumber; i++) {
-
-                Log.d("testcollison", "food: " + foodPart.get(i).getRect());
-                Log.d("testcollison", "head: " + snakeHeadPoint);
                 if (foodPart.get(i).getRect().contains((int) snakeHeadPoint.x, (int) snakeHeadPoint.y)) {
-                    Log.d("testcollison", "eaten");
                     removeFood(i);
                     score++;
                     scoreText.setText(String.valueOf(score));
@@ -463,8 +464,8 @@ public class GameFragment extends Fragment {
     private Runnable runnableEndDialog = new Runnable() {
         @Override
         public void run() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-            // Set the title for the dialog
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+
             builder.setTitle(getString(R.string.end_game_title));
 
             // Create an EditText widget
@@ -478,15 +479,17 @@ public class GameFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {}
             });
+
             builder.setNegativeButton(getString(R.string.end_game_guest), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    dbHelper.addScore("Anonyme", score);
+                    dbHelper.addScore("Guest", score);
 
                     ((MainActivity) requireActivity()).updateFragment(new EndFragment(score));
                     dialog.dismiss();
                 }
             });
+
             final AlertDialog dialog = builder.create();
 
             dialog.setCancelable(false);
@@ -501,7 +504,7 @@ public class GameFragment extends Fragment {
                     String inputText = input.getText().toString();
 
                     if (inputText.length() > 12 || inputText.length() == 0) {
-                        Toast.makeText(requireActivity(), "Le nom dois être entre 0 et 12 caractères", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), getString(R.string.save_game_error), Toast.LENGTH_SHORT).show();
                     } else {
                         dbHelper.addScore(inputText, score);
 
@@ -512,4 +515,14 @@ public class GameFragment extends Fragment {
             });
         }
     };
+
+    /**
+     * Convertit des dp en px
+     * @param dp
+     * @return les dp en px
+     */
+    public static int dpToPx(int dp)
+    {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
 }

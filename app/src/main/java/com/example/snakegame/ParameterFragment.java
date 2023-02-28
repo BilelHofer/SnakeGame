@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class ParameterFragment extends Fragment {
     private TextView speedUpValue;
     private Slider speedUpSlider;
+    private View contextView;
     private TextView numAppleValue;
     private Slider numAppleSlider;
     private Button saveButton;
@@ -38,6 +39,7 @@ public class ParameterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parameter, container, false);
+        contextView = view.findViewById(R.id.parameter_view);
 
         speedUpValue = view.findViewById(R.id.parameter_speed_up_value);
         speedUpSlider = view.findViewById(R.id.slider_speed_up);
@@ -77,16 +79,11 @@ public class ParameterFragment extends Fragment {
         });
 
         // Sauvegarde les paramètres dans la base de données
-        //TODO informer
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // pour le speedUp limite le nombre de chiffre après la virgule à 2
                 boolean sucess = dbParameters.updateParameter(Float.parseFloat((String) speedUpValue.getText()), (int) numAppleSlider.getValue());
-
-                Pair<Float, Integer> parameter = dbParameters.getParameter();
-
-                View contextView = view.findViewById(R.id.parameter_view);
 
                 if (sucess) {
                     Snackbar.make(contextView, getString(R.string.parameter_save_message), Snackbar.LENGTH_LONG)

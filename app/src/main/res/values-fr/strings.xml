@@ -18,4 +18,5 @@
     <string name="end_game_guest">Anonyme</string>
     <string name="parameter_save_message">Vos paramètres ont été sauvegardés avec succès </string>
     <string name="parameter_save_error">Erreur</string>
+    <string name="save_game_error">Le nom dois être entre 0 et 12 caractères</string>
 </resources>
