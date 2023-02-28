@@ -42,8 +42,14 @@ public class SnakePart {
      */
     public void setSize(int size) {
         this.size -= size;
-        for (int i = 0; i < size; i++) {
-            lastPositions.remove(lastPositions.size() - 1);
-        }
+        lastPositions.remove(lastPositions.size() - 1);
+    }
+
+    /**
+     * Retourne la liste des positions en entier
+     * @return Liste des positions
+     */
+    public ArrayList<PointF> getAllPositions() {
+        return lastPositions;
     }
 }

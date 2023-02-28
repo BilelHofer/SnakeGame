@@ -35,7 +35,7 @@
             android:layout_marginTop="-10dp"
             android:value="0.5"
             android:valueFrom="0.4"
-            android:valueTo="1.2"/>
+            android:valueTo="1.0"/>
 
     <TextView
             android:id="@+id/parameter_num_apple"

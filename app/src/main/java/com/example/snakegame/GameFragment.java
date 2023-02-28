@@ -6,6 +6,7 @@ import static android.content.Context.SENSOR_SERVICE;
         import android.content.Intent;
         import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
         import android.hardware.Sensor;
@@ -74,11 +75,14 @@ public class GameFragment extends Fragment {
     private int foodNumber = 1;
     private int foodLeft = 1;
     private PointF snakeHeadPoint = new PointF();
+    private Rect snakeHeadRect = new Rect();
     private ArrayList<Food> foodPart = new ArrayList<>();
     private ArrayList<ImageView> foodPartView = new ArrayList<>();
 
     private DatabaseHelper dbHelper;
     private DatabaseHelperParameters dbHelperParameters;
+
+    private ArrayList<PointF> snakePartsPoint = new ArrayList<>();
     public GameFragment() {}
 
     @Override
@@ -207,6 +211,7 @@ public class GameFragment extends Fragment {
     private void move() {
         snakeParts.get(0).addPosition(snakeHead.getX() + snakeHead.getWidth()/2, snakeHead.getY() + snakeHead.getHeight()/2);
         snakeHeadPoint.set((int) snakeHead.getX() + snakeHead.getWidth()/2, (int) snakeHead.getY() + snakeHead.getHeight()/2);
+        snakeHeadRect = new Rect((int) snakeHead.getX(), (int) snakeHead.getY(), (int) snakeHead.getX() + snakeHead.getWidth(), (int) snakeHead.getY() + snakeHead.getHeight());
 
         switch (direction) {
             case UP:
@@ -228,6 +233,7 @@ public class GameFragment extends Fragment {
                 snakeHead.setX(snakeHead.getX() + deplace);
                 break;
         }
+        getAllDeadPos();
     }
 
     /**
@@ -266,19 +272,32 @@ public class GameFragment extends Fragment {
      *  Set la position de la nourriture et l'affiche a l'écran
      */
     private void spawnFood() {
-        int oldx = 0;
-        int oldy = 0;
-        int oldx2 = 0;
-        int oldy2 = 0;
         for (int i = 0; i < foodNumber; i++) {
             int x = 0;
             int y = 0;
+
+            boolean isFoodOnSnake = false;
+            boolean isFoodOnFood = false;
 
             // test pour pas que les pommes se superposent
             do {
                 x = (int) ((Math.random() * rangeX) + minRangeX);
                 y = (int) ((Math.random() * rangeY) + minRangeY);
-            }while (foodPart.get(i).getRect().contains(oldx, oldy) || foodPart.get(i).getRect().contains(oldx2, oldy2));
+
+                for (int j = 0; j < snakePartsPoint.size() - 1; j++) {
+                    Rect tempFoodRect = new Rect(x, y, x + foodPartView.get(i).getWidth(), y + foodPartView.get(i).getHeight());
+                    if (tempFoodRect.contains((int) snakePartsPoint.get(j).x, (int) snakePartsPoint.get(j).y)) {
+                        isFoodOnSnake = true;
+                    }
+                }
+
+                for (int j = 0; j < foodPart.size(); j++) {
+                    if (foodPart.get(j).getRect().contains(x, y)) {
+                        isFoodOnFood = true;
+                    }
+                }
+
+            }while (isFoodOnSnake || isFoodOnFood);
 
             foodPart.get(i).setPos(x, y);
             foodPartView.get(i).setX(x);
@@ -323,17 +342,13 @@ public class GameFragment extends Fragment {
     private Runnable runnableTestPart = new Runnable() {
         @Override
         public void run() {
-            for (ImageView part : snakePartsView) {
-                if (part != snakeHead && score > 1) {
-                    // met un rectangle autour de la part
-                    Rect partRect = new Rect((int) part.getX(), (int) part.getY(), (int) part.getX() + part.getWidth(), (int) part.getY() + part.getHeight());
-
-                    if (partRect.contains((int) snakeHead.getX() + snakeHead.getWidth()/2, (int) snakeHead.getY() + snakeHead.getHeight()/2)) {
+            for (PointF pos : snakePartsPoint) {
+                if (snakeHeadRect.contains((int) pos.x, (int) pos.y)) {
                         endGame();
                         handler.removeCallbacks(this);
-                    }
                 }
             }
+
             handler.postDelayed(this, 50);
         }
     };
@@ -403,7 +418,7 @@ public class GameFragment extends Fragment {
      */
     private void updatePart() {
         for (SnakePart part : snakeParts) {
-            part.setSize(1);
+                part.setSize(1);
         }
     }
 
@@ -517,12 +532,14 @@ public class GameFragment extends Fragment {
     };
 
     /**
-     * Convertit des dp en px
-     * @param dp
-     * @return les dp en px
+     * Récupère tous les points qui tue le serpent
      */
-    public static int dpToPx(int dp)
-    {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    private void getAllDeadPos() {
+        if (score > 2) {
+            snakePartsPoint.clear();
+            for (int i = 2; i < snakeParts.size() - 1; i++) {
+                snakePartsPoint.addAll(snakeParts.get(i).getAllPositions());
+            }
+        }
     }
 }
