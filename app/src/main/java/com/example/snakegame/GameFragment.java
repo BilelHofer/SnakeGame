@@ -208,7 +208,7 @@ public class GameFragment extends Fragment {
     /**
      * Déplace la tête du serpent
      */
-    private void move() {
+    private void moveHead() {
         snakeParts.get(0).addPosition(snakeHead.getX() + snakeHead.getWidth()/2, snakeHead.getY() + snakeHead.getHeight()/2);
         snakeHeadPoint.set((int) snakeHead.getX() + snakeHead.getWidth()/2, (int) snakeHead.getY() + snakeHead.getHeight()/2);
         snakeHeadRect = new Rect((int) snakeHead.getX(), (int) snakeHead.getY(), (int) snakeHead.getX() + snakeHead.getWidth(), (int) snakeHead.getY() + snakeHead.getHeight());
@@ -219,7 +219,6 @@ public class GameFragment extends Fragment {
                 snakeHead.setY(snakeHead.getY() - deplace);
                 break;
             case DOWN:
-
                 snakeHead.setRotation(90);
                 snakeHead.setY(snakeHead.getY() + deplace);
                 break;
@@ -228,12 +227,10 @@ public class GameFragment extends Fragment {
                 snakeHead.setX(snakeHead.getX() - deplace);
                 break;
             case RIGHT:
-
                 snakeHead.setRotation(0);
                 snakeHead.setX(snakeHead.getX() + deplace);
                 break;
         }
-        getAllDeadPos();
     }
 
     /**
@@ -242,8 +239,9 @@ public class GameFragment extends Fragment {
     private Runnable runnableMove = new Runnable() {
         @Override
         public void run() {
-            move();
+            moveHead();
             moveParts();
+            getAllDeadPos();
             handler.postDelayed(this, 5);
         }
     };
@@ -279,11 +277,11 @@ public class GameFragment extends Fragment {
             boolean isFoodOnSnake = false;
             boolean isFoodOnFood = false;
 
-            // test pour pas que les pommes se superposent
             do {
                 x = (int) ((Math.random() * rangeX) + minRangeX);
                 y = (int) ((Math.random() * rangeY) + minRangeY);
 
+                // pour éviter que la nourriture apparaisse sur le serpent
                 for (int j = 0; j < snakePartsPoint.size() - 1; j++) {
                     Rect tempFoodRect = new Rect(x, y, x + foodPartView.get(i).getWidth(), y + foodPartView.get(i).getHeight());
                     if (tempFoodRect.contains((int) snakePartsPoint.get(j).x, (int) snakePartsPoint.get(j).y)) {
@@ -291,6 +289,7 @@ public class GameFragment extends Fragment {
                     }
                 }
 
+                // pour éviter que la nourriture apparaisse sur une autre nourriture
                 for (int j = 0; j < foodPart.size(); j++) {
                     if (foodPart.get(j).getRect().contains(x, y)) {
                         isFoodOnFood = true;
@@ -319,11 +318,7 @@ public class GameFragment extends Fragment {
             for (int i = 0; i < foodNumber; i++) {
                 if (foodPart.get(i).getRect().contains((int) snakeHeadPoint.x, (int) snakeHeadPoint.y)) {
                     removeFood(i);
-                    score++;
-                    scoreText.setText(String.valueOf(score));
-                    addPart();
-                    updatePart();
-                    deplace += speedUp;
+                    upgradeGame();
                     foodLeft--;
                     if (foodLeft == 0) {
                         noFood = true;
@@ -335,6 +330,17 @@ public class GameFragment extends Fragment {
                 handler.postDelayed(this, 50);
         }
     };
+
+    /**
+     * Améliore les stats de la partie
+     */
+    private void upgradeGame() {
+        score++;
+        scoreText.setText(String.valueOf(score));
+        addPart();
+        updatePart();
+        deplace += speedUp;
+    }
 
     /**
      * Runnable qui test si la tête du serpent touche une partie du corps
